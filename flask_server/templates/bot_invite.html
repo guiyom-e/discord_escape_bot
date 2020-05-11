@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="errorModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Code invalide</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Non, ce n'est pas le bon code ou alors le serveur ne délivre plus de lien ! Pour pouvoir inviter le bot
+                sur ton serveur, il faut obtenir le code d'un maître du jeu.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Inviter le bot sur son propre serveur</h1>
+        <p class="lead text-muted">Si tu es administrateur d'un serveur Discord, tu peux y inviter le bot, à
+            condition qu'il soit disponible. </p>
+        <p class="lead text-muted">Il faut avoir été formé pour pouvoir animer une partie en tant que maître du jeu.</p>
+
+
+        <div class="input-group mb-3" style="margin: 0.5rem;">
+            <input class="form-control" id="inviteCode" placeholder="Entre le code reçu pour inviter Tintin"
+                   type="text">
+            <div class="input-group-append">
+                <button class="btn btn-primary" onclick="submit()">OK</button>
+            </div>
+        </div>
+        <a href="#" id="bot_invite_ref">
+            <button class="btn btn-outline-secondary btn-lg" data-container="body" id="bot_invite_btn">
+                Inviter le bot sur mon serveur
+            </button>
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block additional_scripts %}
+<script>
+async function submit() {
+    var code = document.getElementById("inviteCode").value;
+    let response = await fetch("/api/bot_invite", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          },
+        body: JSON.stringify({"code": code})
+        });
+    if (response.status !== 200){
+        $('#errorModal').modal('show');
+        return;}
+    const data = await response.json();
+    if (!data || !data.ok || !data.link){
+        $('#errorModal').modal('show');
+        return;}
+    document.getElementById("bot_invite_btn").className = "btn btn-success btn-lg";
+    document.getElementById("bot_invite_ref").href = data.link || "#";
+  }
+
+</script>
+{% endblock %}

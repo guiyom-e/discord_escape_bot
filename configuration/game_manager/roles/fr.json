@@ -1,0 +1,29 @@
+{
+  "BOT": {
+    "name": "Bot",
+    "permissions": 8,
+    "colour": "green",
+    "mentionable": true
+  },
+  "DEV": {
+    "name": "Administrateur",
+    "permissions": 8,
+    "colour": "dark_red"
+  },
+  "MASTER": {
+    "name": "Maître du jeu",
+    "permissions": 2147483639,
+    "colour": "dark_red",
+    "mentionable": true
+  },
+  "VISITOR": {
+    "name": "Joueur",
+    "permissions": 68224000,
+    "colour": "red"
+  },
+  "DEFAULT": {
+    "permissions": {
+      "use_voice_activation": true
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "DEV": {
+    "name": "Developers",
+    "overwrites": {
+      "DEV": {
+        "view_channel": true
+      },
+      "BOT": {
+        "view_channel": true
+      },
+      "DEFAULT": {
+        "view_channel": false
+      }
+    },
+    "type": "category",
+    "key": "DEV"
+  },
+  "MASTER": {
+    "name": "Maitres du jeu",
+    "overwrites": {
+      "BOT": {
+        "view_channel": true
+      },
+      "DEV": {
+        "view_channel": true
+      },
+      "MASTER": {
+        "view_channel": true
+      },
+      "DEFAULT": {
+        "view_channel": false
+      }
+    },
+    "type": "category",
+    "key": "MASTER"
+  }
+}

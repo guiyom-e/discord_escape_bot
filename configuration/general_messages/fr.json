@@ -1,0 +1,25 @@
+{
+  "INVITE_MESSAGE": "Voici le lien d'invitation pour mon serveur : {link}",
+  "GOOD_ANSWERS": [
+    "Correct !",
+    "Ouiiii",
+    "Exactement !",
+    "Tout à fait !",
+    "Oui, c'est ça !"
+  ],
+  "BAD_ANSWERS": [
+    "Incorrect !",
+    "Nooooon",
+    "Raté !",
+    "Pas du tout !",
+    "Non, c'est pas ça !"
+  ],
+  "ALREADY_SAID": [
+    "Oui, tu l'as déjà dit !",
+    "Merci, je sais !",
+    "Effectivement, ça n'a pas changé...",
+    "D'accord, et ?",
+    "C'est pas nouveau !",
+    "Oui, je suis déjà au courant 😉"
+  ]
+}

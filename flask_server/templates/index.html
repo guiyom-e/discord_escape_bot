@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Escape game en ligne</h1>
+        <p class="lead text-muted">Viens participer au tout premier escape game sur Discord !</p>
+        <a href={{game_link}}>
+            {% if game_link != "#" %}
+            <button class="btn btn-success btn-lg" data-container="body">
+                Rejoindre la partie actuelle
+            </button>
+            {% else %}
+            <button class="btn btn-outline-secondary btn-lg" data-container="body"
+                    data-content="Désolé, il n'y a pas de séance en cours actuellement !" data-placement="bottom"
+                    data-toggle="popover" type="button"
+            >
+                Rejoindre la partie actuelle
+            </button>
+            {% endif %}
+        </a>
+        <a href={{bot_invite_path}}>
+            {% if bot_invite_path == "#" %}
+            <button class="btn btn-outline-secondary btn-lg" data-container="body"
+                    data-content="Désolé, le bot est déjà présent sur un autre serveur et ne sait pas se dédoubler ! Regarde les prochaines dates pour savoir quand il sera disponible puis fais ta demande de réservation !"
+                    data-placement="bottom"
+                    data-toggle="popover" type="button"
+            >
+                Inviter le bot sur mon serveur
+            </button>
+            {% elif bot_invite_path == "/" %}
+            <button class="btn btn-outline-info btn-lg" data-container="body"
+                    data-placement="bottom"
+                    data-toggle="tooltip"
+                    title="Tintin est en train de se réveiller. Rafraîchis la page dans quelques secondes pour voir si Tintin est disponible."
+                    type="button"
+            >
+                Inviter Tintin sur mon serveur
+            </button>
+            {% else %}
+            <button class="btn btn-success btn-lg" data-container="body">
+                Inviter Tintin sur mon serveur
+            </button>
+            {% endif %}
+        </a>
+    </div>
+</section>
+{% endblock %}
+

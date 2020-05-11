@@ -1,0 +1,3 @@
+{
+  "INTRO": "Dans cette chaîne réinitialisée à chaque démarrage, tu peux écrire tes commandes personnalisées de contrôle de musique parmi la liste suivante. Les musiques doivent provenir de la musique locale (commande `show_songs` pour voir ce qui est disponible) ou de YouTube. Il est possible de créer sa propre palette de jingles avec la commande `jingles`."
+}

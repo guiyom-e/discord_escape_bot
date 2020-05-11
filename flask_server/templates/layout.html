@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% block header %}
+    <title>Escape game virtuel</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://getbootstrap.com/docs/4.1/components/popovers/" rel="canonical">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    .btn-lg {
+      margin: 0.5rem;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 3rem;
+      background-color: #f2f2f2;
+      display: flex;
+      align-content: center;
+      align-items: stretch;
+      justify-content: space-around;
+    }
+
+    body {
+      height: 100%;
+      margin-bottom: 3rem; /* for the footer */
+    }
+
+    p {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    </style>
+    {% endblock %}
+</head>
+<body>
+<header>
+    {% block navbar %}
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">À propos</h4>
+                    <p class="text-muted">Escape game virtuel développé pour la plateforme Discord (outil de discussion
+                        instantanée). Jeu pour 4 à 24 joueurs simultanés. Chaque partie peut être adaptée en fonction de
+                        l'âge, de l'expérience et du nombre de joueurs.
+                    <h4 class="text-white">Matériel nécessaire pour jouer</h4>
+                    <p class="text-muted">Pour participer, une connexion internet suffisante est nécessaire. Un casque
+                        avec micro est recommandé pour une communication vocale de qualité.
+                        Un ordinateur est préférable pour une expérience de jeu optimale, mais un terminal mobile est
+                        suffisant. Dans ce dernier cas, il faudra installer l'application mobile Discord.</p>
+                    <a href="https://discordapp.com/download"><p>Télécharger l'application Discord</p></a>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                    <h4 class="text-white">Contact</h4>
+                    <ul class="list-unstyled">
+                        <li class="text-muted">Le jeu se transmet de proche en proche, désolé, il n'y a pas de contact
+                            pour l'instant !<br>Contacte la personne qui t'a communiqué le nom du site pour en savoir
+                            plus
+                            !
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a class="navbar-brand d-flex align-items-center"
+               href="https://mypads2.framapad.org/p/r.8d6584e2113bff04260de04f227ac261"
+               rel="noopener noreferrer" target="_blank"
+            >
+                <strong style="margin-left:1rem">Explications détaillées</strong>
+            </a>
+            <a class="navbar-brand d-flex align-items-center"
+               href="https://mypads2.framapad.org/p/explications-escape-bot-discord-e52mb69s8"
+               rel="noopener noreferrer" target="_blank"
+            >
+                <strong style="margin-left:1rem">Réservation et livre d'or</strong>
+            </a>
+            <button aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-target="#navbarHeader" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    {% endblock %}
+</header>
+
+{% block main %}{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <p>Jeu gratuit développé pour la plateforme Discord.</p>
+</footer>
+{% endblock %}
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+{% block additional_scripts %}{% endblock %}
+</body>
+</html>

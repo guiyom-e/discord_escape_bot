@@ -1,0 +1,143 @@
+{
+  "WELCOME": {
+    "name": "bienvenue",
+    "overwrites": {
+      "DEFAULT": {
+        "view_channel": true,
+        "send_messages": false,
+        "read_message_history": true
+      },
+      "MASTER": {
+        "send_messages": true
+      }
+    },
+    "sync_permissions": false,
+    "position": 0,
+    "topic": "Bienvenue à Moulinsart ! Retrouvez ici toutes les informations nécessaires pour la visite du château !",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "key": "WELCOME"
+  },
+  "MASTER": {
+    "name": "maîtres-du-jeu",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne réservée aux maîtres du jeu pour leur communication interne.",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "MASTER",
+    "key": "MASTER"
+  },
+  "MASTER_VOICE": {
+    "name": "Maîtres du jeu",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne vocale pour les maîtres du jeu",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "voice",
+    "category": "MASTER",
+    "key": "MASTER_VOICE"
+  },
+  "BOARD": {
+    "name": "tableau-de-bord",
+    "overwrites": {
+      "DEV": {
+        "view_channel": true
+      },
+      "MASTER": {
+        "view_channel": true,
+        "send_messages": false
+      },
+      "DEFAULT": {
+        "view_channel": false
+      }
+    },
+    "sync_permissions": false,
+    "position": 0,
+    "topic": "Tableau de bord du jeu. Chaîne réservée aux maîtres du jeu pour le contrôle global du jeu.",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "MASTER",
+    "key": "BOARD"
+  },
+  "MEMO": {
+    "name": "memo",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne de rappels des réponses pour chaque mini-jeu, à destination des maîtres du jeu",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "MASTER",
+    "key": "MEMO"
+  },
+  "MUSIC": {
+    "name": "table-son",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne pour jouer des bruitages ou musiques par Tintin. À n'utiliser qu'au début, avant les lieux spéciaux!",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "MASTER",
+    "key": "MUSIC"
+  },
+  "COMMANDS": {
+    "name": "commandes",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne réservée aux maîtres du jeu pour le contrôle par commandes.",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "MASTER",
+    "key": "COMMANDS"
+  },
+  "EVENTS": {
+    "name": "commandes-dev",
+    "overwrites": {},
+    "sync_permissions": true,
+    "position": 0,
+    "topic": "Chaîne pour les commandes avancées et les événements d'administration. Réinitialisé à chaque lancement.",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "DEV",
+    "key": "EVENTS"
+  },
+  "LOG": {
+    "name": "logs",
+    "overwrites": {
+      "DEV": {
+        "view_channel": true
+      },
+      "BOT": {
+        "view_channel": true
+      },
+      "MASTER": {
+        "view_channel": true,
+        "send_messages": false
+      },
+      "DEFAULT": {
+        "view_channel": false
+      }
+    },
+    "sync_permissions": false,
+    "position": 0,
+    "topic": "Chaîne pour les logs. Ne pas écrire ici !",
+    "slowmode_delay": 0,
+    "nsfw": false,
+    "type": "text",
+    "category": "DEV",
+    "key": "LOG"
+  }
+}
