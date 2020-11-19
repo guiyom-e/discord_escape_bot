@@ -49,7 +49,7 @@ class CommandUtils(AbstractFilteredListener):
 
     def __init__(self, **kwargs):
         self._prefix = kwargs.pop("prefix", "!")
-        self._verbose = kwargs.pop("verbose", VERBOSE)
+        self._verbose = kwargs.pop("verbose", VERBOSE >= 20)
         self._sep = kwargs.pop("sep", " ")
         _default_methods = list(self._method_to_commands) if self._default_methods is None else self._default_methods
         self._active_methods = kwargs.pop("commands", _default_methods)

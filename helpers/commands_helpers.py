@@ -4,6 +4,7 @@ from typing import Sequence, List
 
 from discord import Message
 
+from constants import BOT
 from logger import logger
 
 
@@ -73,6 +74,31 @@ def find_channel_mentions_in_message(message: Message, args: List[str], delete_c
     if not channel_ids and message_channel_if_not_found:
         return [message.channel]
     return [message.guild.get_channel(ch_id) for ch_id in channel_ids[::-1]]
+
+
+def find_user_mentions_in_message(message: Message, args: List[str], delete_user_args=True, only_first_args=False):
+    users = message.mentions
+    to_pop, matches = [], []
+    for i, arg in enumerate(args):
+        match = re.match(r"<@![0-9]+>", arg)
+        if match:
+            to_pop.append(i)
+            matches.append(match.group())
+        elif only_first_args:
+            break
+    if len(users) != len(to_pop) and not only_first_args:
+        logger.warning(f"Incorrect user mention args for message {message}")
+    to_pop.reverse()
+    user_ids = []
+    for i, match in zip(to_pop, matches):
+        if delete_user_args:
+            args.pop(i)
+        user_ids.append(int(match[3:-1]))
+    users = [BOT.get_user(user_id) for user_id in user_ids[::-1]]
+    if user_ids:
+        logger.warning(f"Some users don't exist or the bot don't have the permissions to see them: "
+                       f"{[user_id for user_id, user in zip(user_ids, users) if user is None]}")
+    return [user for user in users if user is not None]  # returns only users that where found.
 
 
 def infer_channels_from_message(message: Message, args: List[str]):

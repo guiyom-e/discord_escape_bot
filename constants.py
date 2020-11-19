@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import ast
 import os
+import sys
 
+from discord import Intents, version_info
 from discord.ext.commands import Bot
 from dotenv import load_dotenv
 
 from logger import logger
 
+logger.info(f"Python version: {sys.version_info}\nDiscord.py version: {version_info}")
 _DOT_ENV_PATH = ".env"
 try:
     if os.path.exists(_DOT_ENV_PATH):
@@ -25,11 +28,12 @@ try:
     _TOKEN = os.getenv('DISCORD_TOKEN')
     TOKEN_SITE = os.getenv('TOKEN_SITE')
     SONG_PATH = os.getenv("SONG_PATH", "files/_songs/")
-    VERBOSE = bool(os.getenv("VERBOSE", True))
+    VERBOSE = int(os.getenv("VERBOSE", 20) or 20)  # 0: no message, 10: few messages, 20: verbose
     CLIENT_ID = int(os.getenv("CLIENT_ID", None))
     PASSWORD_BOT_INVITE = os.getenv("PASSWORD_BOT_INVITE", None)
     PASSWORD_REMOVE_BOT = os.getenv("PASSWORD_REMOVE_BOT", None)
     PASSWORD_KICK_BOT = os.getenv("PASSWORD_KICK_BOT", None)
+    CARD_BASE_URL = os.getenv("CARD_BASE_URL", "")  # card urls for Dixit game
 except (KeyError, ValueError) as err:
     logger.error("Failed to load environment variables. Program will terminate.")
     logger.exception(err)
@@ -54,4 +58,7 @@ class CustomBot(Bot):
         return f"<Bot display_name='{self.user.display_name}'>"
 
 
-BOT = CustomBot(command_prefix="$")
+bot_intents = Intents.default()
+bot_intents.members = True
+
+BOT = CustomBot(command_prefix="$", intents=bot_intents)

@@ -39,11 +39,11 @@ async def stay_awake(guild, duration):
             requests.get(WEBSITE)
         except Exception as err:
             logger.error(f"Error while staying awake! The website {WEBSITE} may be down: {err}")
-            if channel and VERBOSE:
+            if channel and VERBOSE >= 10:
                 await channel.send(f"I am here ! But the website {WEBSITE} may be down: {err}")
         else:
             logger.debug("Bot stays awake !")
-            if channel:
+            if channel and VERBOSE >= 20:
                 await channel.send(f"I am here ! And the website {WEBSITE} too !")
             # Update bot availability (in case it is not up-to-date, which can happen in production mode)
             if BOT.guilds:
@@ -69,12 +69,14 @@ async def init_guild(guild_wrapper) -> bool:
     # Add guild listeners and show the control panel
     await guild_wrapper.add_listeners(UtilsList(guild_wrapper))  # add utils
     await guild_wrapper.add_listeners(MinigameCollection.get_guild_instances(guild_wrapper))  # add minigames
-    await guild_wrapper.listener_manager.show_control_panel(guild_wrapper.guild)  # show control panel
+    if VERBOSE >= 10:
+        await guild_wrapper.listener_manager.show_control_panel(guild_wrapper.guild)  # show control panel
 
     # Send a success message
     try:
         channel = await get_safe_text_channel(guild_wrapper.guild, "BOARD", create=False)
-        await channel.send("Bot redémarré !")
+        if VERBOSE >= 10:
+            await channel.send("Bot redémarré !")
     except discord.DiscordException as err:
         logger.error(f"Failed to send reboot message: {err}")
         return False
@@ -243,10 +245,11 @@ async def on_reaction_clear(message: Message, reactions: List[Reaction]):
     await handle_event_in_all_guilds(message.guild, Event.REACTION_CLEAR, message, reactions)
 
 
-@BOT.event
-async def on_member_update(before: Member, after: Member):
-    logger.debug(f"Member {format_member(before)} updated to {format_member(after)}")
-    await handle_event_in_all_guilds(before.guild, Event.MEMBER_UPDATE, before, after)
+# Bot intents must have attribute `presences` set to True
+# @BOT.event
+# async def on_member_update(before: Member, after: Member):
+#     logger.debug(f"Member {format_member(before)} updated to {format_member(after)}")
+#     await handle_event_in_all_guilds(before.guild, Event.MEMBER_UPDATE, before, after)
 
 
 @BOT.event
@@ -298,8 +301,11 @@ def main():
     try:
         logger.info("Bot entering run loop...")
         BOT.run(_TOKEN)
-    except ClientConnectorError as err:
+    except (ClientConnectorError, discord.errors.HTTPException) as err:
         logger.error(f"Connection error, failed to connect: {err}")
+        logger.exception(err)
+    except Exception as err:
+        logger.critical(f"Fatal error: {err}")
         logger.exception(err)
     logger.info("Bot stopped")
 

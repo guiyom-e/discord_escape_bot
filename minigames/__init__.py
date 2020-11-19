@@ -11,6 +11,7 @@ from minigames.map_game import MapGame
 from minigames.mine_messages import MineMessages
 from minigames.mine_tools import MineTools
 from minigames.offices_game import OfficesGame
+from minigames.story_telling import StoryTelling
 
 __all__ = [
     'IntroductionGame',
@@ -30,5 +31,3 @@ __all__ = [
     'MineTools',
     'MineMessages',
 ]
-
-from minigames.story_telling import StoryTelling

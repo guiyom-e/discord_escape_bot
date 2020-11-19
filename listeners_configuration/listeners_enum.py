@@ -29,6 +29,7 @@ class ListenersEnum(ListenerClassEnum):
     ISLAND_TOOLS = IslandTools
     MINE_TOOLS = MineTools
     MINE_MESSAGES = MineMessages
+    DIXIT = DixitGame
 
 
 class UtilsEnum(ListenerClassEnum):

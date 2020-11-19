@@ -7,7 +7,7 @@ import discord
 from discord import Guild, NotFound, TextChannel, HTTPException, Permissions, Message, Reaction, Member
 
 from bot_management.listener_manager import ListenerManager, get_safe_text_channel
-from constants import PASSWORD_KICK_BOT, PASSWORD_REMOVE_BOT
+from constants import PASSWORD_KICK_BOT, PASSWORD_REMOVE_BOT, VERBOSE
 from default_collections import (GuildCollection, CharacterCollection, RoleCollection, CategoryChannelCollection,
                                  ChannelCollection, MinigameCollection)
 from game_models.admin_tools import clear_object_references
@@ -137,21 +137,23 @@ class GuildManager(metaclass=Singleton):
                     message = self._pending_guild[guild_ref].get("pending_message")
                     if message and message.channel:
                         try:
-                            await message.channel.send("Not available yet")
+                            if VERBOSE >= 10:
+                                await message.channel.send("Not available yet")
                             return None
                         except (NotFound, HTTPException) as err:
                             logger.info(err)
                     channel = await get_safe_text_channel(guild, name_key="BOARD", create=False)
-                    await channel.send("Not available yet")
+                    if VERBOSE >= 10:
+                        await channel.send("Not available yet")
                     return None
                 # New guild pending
                 channel = await get_safe_text_channel(guild, name_key="BOARD", create=False)
-                if channel:
+                if channel and VERBOSE >= 10:
                     try:
                         await channel.send(self._messages["ALREADY_ELSEWHERE"])
                     except (NotFound, HTTPException) as err:
                         logger.warning(f"Impossible to send message to channel {channel}: {err}")
-                if len(self._pending_guild) > self._max_pending_guilds:
+                if len(self._pending_guild) > self._max_pending_guilds or VERBOSE < 10:
                     await guild.leave()
                 else:
                     await self.show_pending_guild_panel(guild, channel)
@@ -176,13 +178,13 @@ class GuildManager(metaclass=Singleton):
         guild_wrapper = self.get_guild(guild_ref)
         if guild_wrapper:
             await guild_wrapper.clear_listeners()
-        if kick:
-            try:
-                await guild_wrapper.leave()
-            except HTTPException as err:
-                logger.debug(f"Error on guild leave: {err}")
+            if kick or VERBOSE < 10:
+                try:
+                    await guild_wrapper.leave()
+                except HTTPException as err:
+                    logger.debug(f"Error on guild leave: {err}")
         # guild was removed from GuildManager, but the bot is still present
-        if guild_ref in [guild.id for guild in self._bot.guilds]:
+        if guild_ref in [guild.id for guild in self._bot.guilds] and VERBOSE >= 10:
             await self.show_pending_guild_panel(self._bot.get_guild(guild_ref))
         # Object references are reset
         clear_object_references()

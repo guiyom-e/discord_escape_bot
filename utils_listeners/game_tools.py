@@ -12,10 +12,11 @@ from constants import BOT
 from default_collections import RoleCollection, ChannelCollection
 from functions import get_number_in_args, is_key_in_args
 from game_models import CommandUtils, AbstractMiniGame, AbstractUtils
-from helpers import (TranslationDict)
-from helpers.commands_helpers import is_int, find_channel_mentions_in_message
+from helpers import (TranslationDict, send_dm_message)
+from helpers.commands_helpers import is_int, find_channel_mentions_in_message, find_user_mentions_in_message
 from helpers.invitations import delete_invite, create_invite
 from logger import logger
+from minigames.sample_minigame import handle_dm_message_error
 from utils_listeners.role_by_reaction import RoleByReactionManager, RoleMenuOptions
 
 
@@ -77,6 +78,7 @@ class GameUtils(CommandUtils, AbstractUtils):
         "speak_for_bot": [("sfb", "send"), "Parler à la place du bot.\n"
                                            " - *Argument optionnel* : une mention du salon "
                                            "(si pas de mention, la chaîne courante est utilisée)."],
+        "send_to_user": [("perso", "dm", "mp"), "Envoyer un message à un ou plusieurs utilisateurs par canal privé."],
         "randint": [("randint", "alea"),
                     "Génère un entier aléatoire entre 0 et 100.\n"
                     " - *Arguments optionnels*: 1 entier X -> entre 0 et X\n"
@@ -272,12 +274,33 @@ class GameUtils(CommandUtils, AbstractUtils):
         logger.debug("Rolemenu created. Now you can edit your post to make it prettier.")
 
     async def speak_for_bot(self, message, args):
-        channels = find_channel_mentions_in_message(message, args, message_channel_if_not_found=True)
+        if is_key_in_args(args, "-f") or is_key_in_args(args, "--first-args-only"):
+            only_first_args = True
+        else:
+            only_first_args = False
+        channels = find_channel_mentions_in_message(message, args, message_channel_if_not_found=True,
+                                                    only_first_args=only_first_args)
         msg = self._sep.join(args)
         if not msg:  # cannot send empty message
             return
         for channel in channels:
             await channel.send(msg)
+
+    async def send_to_user(self, message, args):
+        if is_key_in_args(args, "-f") or is_key_in_args(args, "--first-args-only"):
+            only_first_args = True
+        else:
+            only_first_args = False
+        users = find_user_mentions_in_message(message, args, only_first_args=only_first_args)
+        if not users:
+            return await message.channel.send("No user in the command!")
+        msg = self._sep.join(args)
+        if not msg:  # cannot send empty message
+            return await message.channel.send("Cannot send empty message!")
+        for user in users:
+            await send_dm_message(user, msg, origin_channel=message.channel,
+                                  callback_on_forbidden_error=handle_dm_message_error)
+        return await message.channel.send("Message sent to recipients!")
 
     @staticmethod
     async def update(message, args, force=False):

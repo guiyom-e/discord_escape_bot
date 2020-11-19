@@ -56,9 +56,12 @@ async def clean_channels(channels, limit=None, ignore="default", force=None):
     return result
 
 
-async def clean_channel(channel, limit=None):
-    # You must have the manage_messages permission to delete messages.
-    # The read_message_history permission is also needed to retrieve message history.
+async def clean_channel(channel: TextChannel, limit: int = None):
+    """Remove messages of the channel (up to the limit, 1000 per default)
+
+    You must have the manage_messages permission to delete messages.
+    The read_message_history permission is also needed to retrieve message history.
+    """
     if not isinstance(channel, TextChannel) or channel not in channel.guild.channels:
         logger.debug(f"Cannot reset a {channel.__class__.__name__} channel, only TextChannel types supported.")
         return False

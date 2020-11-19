@@ -12,7 +12,7 @@ UTILS = [
                                "réinitialiser le jeu, etc.\n`>help` pour connaître les commandes.",
                    prefix=">",
                    auto_start=True,
-                   verbose=VERBOSE,
+                   verbose=VERBOSE >= 20,
                    allowed_roles=["DEV"],
                    log_webhook_description="LOG",
                    events_channel_description="EVENTS",
@@ -24,7 +24,7 @@ UTILS = [
                           "pour parler à la place du bot, etc.\n`!help` pour connaître les commandes.",
               prefix="!",
               auto_start=True,
-              verbose=VERBOSE,
+              verbose=VERBOSE >= 20,
               allowed_roles=["MASTER", "DEV"]),
 
     # Outils de musique
@@ -33,13 +33,15 @@ UTILS = [
                            "\n`&help` pour connaître les commandes.",
                prefix="&",
                auto_start=True,
-               verbose=VERBOSE,
+               verbose=VERBOSE >= 20,
                allowed_roles=["MASTER", "DEV"]),
 
     # Role manager avec réactions par émoticônes. Démarre automatiquement par défaut: ne pas le désactiver!
     RoleByReactionManager(description="Système d'auto-attribution des rôles par réaction. Ne pas désactiver !",
                           auto_start=True, show_in_listener_manager=False),
 
+    ReactionMenuManager(description="Système de menu avec actions personnalisées. Ne pas désactiver !", auto_start=True,
+                        show_in_listener_manager=False),
     # Jingle palette
     JinglePaletteManager(description="Jingle palette", auto_start=True, show_in_listener_manager=False)
 ]

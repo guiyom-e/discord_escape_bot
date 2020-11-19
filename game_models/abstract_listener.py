@@ -16,7 +16,10 @@ from models.types import AbstractGuildListener
 async def reconstitute_reaction_and_user(payload: RawReactionActionEvent) -> Tuple[Optional[Reaction], Optional[User]]:
     try:
         guild: Guild = BOT.get_guild(payload.guild_id)
-        member = guild.get_member(payload.user_id)
+        member = payload.member or guild.get_member(payload.user_id)
+        if member is None:
+            logger.warning(f"Member can not be retrieved for this reaction: {payload}"
+                           f"\nPermission denied or not in guild ?")
         channel = guild.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
     except (NotFound, Forbidden, HTTPException, AttributeError) as err:
@@ -158,8 +161,8 @@ class AbstractListener(AbstractGuildListener):
     async def on_member_remove(self, member: Member):
         pass
 
-    async def on_member_update(self, before: Member, after: Member):
-        pass
+    # async def on_member_update(self, before: Member, after: Member):
+    #     pass
 
     async def on_member_ban(self, guild: Guild, user: Union[User, Member]):
         pass

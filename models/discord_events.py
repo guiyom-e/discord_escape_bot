@@ -15,7 +15,7 @@ class Event(enum.Enum):
     RAW_REACTION_ADD = "on_raw_reaction_add"
     RAW_REACTION_REMOVE = "on_raw_reaction_remove"
     REACTION_CLEAR = "on_reaction_clear"
-    MEMBER_UPDATE = "on_member_update"
+    # MEMBER_UPDATE = "on_member_update"
     MEMBER_BAN = "on_member_ban"
     MEMBER_UNBAN = "on_member_unban"
     VOICE_STATE_UPDATE = "on_voice_state_update"

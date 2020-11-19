@@ -2,7 +2,7 @@ import inspect
 from typing import Union, Awaitable, Any, Optional
 
 import discord
-from discord import Guild, CategoryChannel
+from discord import Guild, CategoryChannel, Message, Reaction
 
 from logger import logger
 
@@ -39,3 +39,24 @@ def find_other_channel_in_same_category(category: Optional[CategoryChannel], cha
         logger.warning(f"More than one channel with the pattern {channel_name_pattern} in category {category}! "
                        f"Only the first is used.")
     return channels[0]
+
+
+async def try_to_delete_message(message: Message, delay: int = None):
+    try:
+        await message.delete(delay=delay)
+    except Exception as err:
+        logger.debug(f"Failed to delete message {message}: {err}")
+
+
+async def try_to_remove_emoji_on_message(message: Message, emoji, user):
+    try:
+        await message.remove_reaction(emoji, user)
+    except Exception as err:
+        logger.debug(f"Failed to remove reaction {emoji} of user {user} in message {message}: {err}")
+
+
+async def try_to_remove_reaction(reaction: Reaction, user):
+    try:
+        await reaction.remove(user)
+    except Exception as err:
+        logger.debug(f"Failed to remove reaction {reaction} of user {user}: {err}")
